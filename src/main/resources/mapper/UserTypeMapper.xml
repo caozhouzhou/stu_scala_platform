@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jdwa.dao.UserTypeMapper">
   <resultMap id="BaseResultMap" type="com.jdwa.pojo.UserType">
-    <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="info" jdbcType="VARCHAR" property="info" />
     <result column="duty" jdbcType="VARCHAR" property="duty" />
@@ -67,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, name, info, duty
+    id, name, info, duty
   </sql>
   <select id="selectByExample" parameterType="com.jdwa.pojo.UserTypeExample" resultMap="BaseResultMap">
     select
@@ -83,6 +82,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_user_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
   <delete id="deleteByExample" parameterType="com.jdwa.pojo.UserTypeExample">
     delete from tb_user_type
     <if test="_parameter != null">
@@ -90,19 +99,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.jdwa.pojo.UserType">
-    insert into tb_user_type (id, uid, name, 
-      info, duty)
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{info,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR})
+    insert into tb_user_type (id, name, info, 
+      duty)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, 
+      #{duty,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jdwa.pojo.UserType">
     insert into tb_user_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="uid != null">
-        uid,
       </if>
       <if test="name != null">
         name,
@@ -117,9 +123,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -144,9 +147,6 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
-      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -164,12 +164,33 @@
   <update id="updateByExample" parameterType="map">
     update tb_user_type
     set id = #{record.id,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       info = #{record.info,jdbcType=VARCHAR},
       duty = #{record.duty,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jdwa.pojo.UserType">
+    update tb_user_type
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null">
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jdwa.pojo.UserType">
+    update tb_user_type
+    set name = #{name,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
