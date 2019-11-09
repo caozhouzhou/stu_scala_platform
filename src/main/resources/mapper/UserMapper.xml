@@ -20,6 +20,34 @@
     <result column="reserve04" jdbcType="VARCHAR" property="reserve04" />
     <result column="reserve05" jdbcType="VARCHAR" property="reserve05" />
   </resultMap>
+
+  <resultMap id="BaseResultMapWithType" type="com.jdwa.pojo.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="ts_id" jdbcType="INTEGER" property="tsId" />
+    <result column="t_id" jdbcType="INTEGER" property="tId" />
+    <result column="pa_id" jdbcType="INTEGER" property="paId" />
+    <result column="info_id" jdbcType="INTEGER" property="infoId" />
+    <result column="m_id" jdbcType="INTEGER" property="mId" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="q_id" jdbcType="INTEGER" property="qId" />
+    <result column="cla_id" jdbcType="INTEGER" property="claId" />
+    <result column="reserve01" jdbcType="VARCHAR" property="reserve01" />
+    <result column="reserve02" jdbcType="VARCHAR" property="reserve02" />
+    <result column="reserve03" jdbcType="VARCHAR" property="reserve03" />
+    <result column="reserve04" jdbcType="VARCHAR" property="reserve04" />
+    <result column="reserve05" jdbcType="VARCHAR" property="reserve05" />
+    <association property="userType" javaType="userType">
+      <id column="id" jdbcType="INTEGER" property="id"/>
+      <result column="uid" jdbcType="INTEGER" property="uid"/>
+      <result column="name" jdbcType="VARCHAR" property="name"/>
+      <result column="info" jdbcType="VARCHAR" property="info"/>
+      <result column="duty" jdbcType="VARCHAR" property="duty"/>
+    </association>
+  </resultMap>
+  
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -82,6 +110,13 @@
     id, username, name, passwd, ts_id, t_id, pa_id, info_id, m_id, role_id, q_id, cla_id, 
     reserve01, reserve02, reserve03, reserve04, reserve05
   </sql>
+
+
+  <sql id="Base_Column_List_With_Type">
+    u.id, u.username, u.name, u.passwd, u.ts_id, u.t_id, u.pa_id, u.info_id, u.m_id, u.role_id, u.q_id, u.cla_id,
+    u.reserve01, u.reserve02, u.reserve03, u.reserve04, u.reserve05,t.id,t.name,t.info,t.duty
+  </sql>
+
   <select id="selectByExample" parameterType="com.jdwa.pojo.UserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -96,12 +131,47 @@
       order by ${orderByClause}
     </if>
   </select>
+
+
+
+
+
+  <select id="selectByExampleWithDept" parameterType="com.jdwa.pojo.UserExample" resultMap="BaseResultMapWithType">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List_With_Type" />
+    from tb_usr u LEFT JOIN ON tb_user_type t
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+
+
+
+  <select id="selectByPrimaryKeyWithType" parameterType="java.lang.Integer" resultMap="BaseResultMapWithType">
+    select
+    <include refid="Base_Column_List_With_Type" />
+    from tb_usr u LEFT JOIN ON tb_user_type t
+    where u.t_id = t.id AND id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tb_usr
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_usr
     where id = #{id,jdbcType=INTEGER}
