@@ -7,9 +7,13 @@ public class User {
 
     private String passwd;
 
+    private String gender;
+
+    private String email;
+
     private Integer typeId;
 
-    private Integer roleId;
+    private String roleId;
 
     public Integer getId() {
         return id;
@@ -35,6 +39,22 @@ public class User {
         this.passwd = passwd == null ? null : passwd.trim();
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender == null ? null : gender.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
     public Integer getTypeId() {
         return typeId;
     }
@@ -43,11 +63,11 @@ public class User {
         this.typeId = typeId;
     }
 
-    public Integer getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId == null ? null : roleId.trim();
     }
 }
