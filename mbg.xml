@@ -42,8 +42,9 @@
 
         <!-- 指定每个表生成策略 -->
         <table tableName="tb_usr" domainObjectName="User" />
-        <table tableName="tb_user_type" domainObjectName="UserType"/>
-        <table tableName="dp" domainObjectName="Dept"/>
+        <!--<table tableName="tb_user_type" domainObjectName="UserType"/>-->
+        <!--<table tableName="dp" domainObjectName="Dept"/>-->
+        <!--<table tableName="tb_mark" domainObjectName="Mark"/>-->
 
 
     </context>
